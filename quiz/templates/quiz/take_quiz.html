@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ quiz.title }}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .quiz-container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .question-block {
+            margin-bottom: 40px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .choice {
+            display: block;
+            background: #eaeaea;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .choice:hover {
+            background-color: #d3d3d3;
+            transform: scale(1.01);
+        }
+
+        .choice input[type="radio"] {
+            display: none;
+        }
+
+        .choice.selected {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+    <script>
+        // Highlight the selected choice using JavaScript
+        document.addEventListener("DOMContentLoaded", () => {
+            const choiceGroups = document.querySelectorAll(".question-block");
+
+            choiceGroups.forEach(group => {
+                const choices = group.querySelectorAll(".choice");
+
+                choices.forEach(choice => {
+                    const input = choice.querySelector("input");
+
+                    input.addEventListener("change", () => {
+                        choices.forEach(c => c.classList.remove("selected"));
+                        choice.classList.add("selected");
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>{{ quiz.title }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="question-block">
+                    <div class="question-text">{{ forloop.counter }}. {{ question.text }}</div>
+                    {% for choice in question.choices.all %}
+                        <label class="choice">
+                            <input type="radio" name="{{ question.id }}" value="{{ choice.id }}">
+                            {{ choice.text }}
+                        </label>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="submit-btn">Submit Quiz</button>
+        </form>
+    </div>
+</body>
+</html>

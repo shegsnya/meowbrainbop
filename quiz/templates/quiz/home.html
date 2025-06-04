@@ -1,0 +1,357 @@
+ {% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+  <title>BrainBop - Home</title>
+  <style>
+    /* --- Variables --- */
+    :root {
+      --color-black: #161616;
+      --color-white: #fff;
+      --size: 170px;
+    }
+
+    /* --- Cat styles --- */
+    .cat {
+      position: relative;
+      height: var(--size);
+      width: calc(var(--size) * 1.13);
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+
+    .ear {
+      position: absolute;
+      top: -30%;
+      height: 60%;
+      width: 25%;
+      background: var(--color-white);
+    }
+
+    .ear::before,
+    .ear::after {
+      content: '';
+      position: absolute;
+      bottom: 24%;
+      height: 10%;
+      width: 5%;
+      border-radius: 50%;
+      background: var(--color-black);
+    }
+
+    .ear::after {
+      transform-origin: 50% 100%;
+    }
+
+    .ear--left {
+      left: -7%;
+      border-radius: 70% 30% 0% 0% / 100% 100% 0% 0%;
+      transform: rotate(-15deg);
+    }
+
+    .ear--left::before,
+    .ear--left::after {
+      right: 10%;
+    }
+
+    .ear--left::after {
+      transform: rotate(-45deg);
+    }
+
+    .ear--right {
+      right: -7%;
+      border-radius: 30% 70% 0% 0% / 100% 100% 0% 0%;
+      transform: rotate(15deg);
+    }
+
+    .ear--right::before,
+    .ear--right::after {
+      left: 10%;
+    }
+
+    .ear--right::after {
+      transform: rotate(45deg);
+    }
+
+    .face {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background: var(--color-black);
+      border-radius: 50%;
+    }
+
+    .eye {
+      position: absolute;
+      top: 35%;
+      height: 30%;
+      width: 31%;
+      background: var(--color-white);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    }
+
+    .eye::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 0;
+      width: 100%;
+      border-radius: 0 0 50% 50% / 0 0 40% 40%;
+      background: var(--color-black);
+      animation: blink 4s infinite ease-in;
+    }
+
+    @keyframes blink {
+      0% { height: 0; }
+      90% { height: 0; }
+      92.5% { height: 100%; }
+      95% { height: 0; }
+      97.5% { height: 100%; }
+      100% { height: 0; }
+    }
+
+    .eye::before {
+      content: '';
+      position: absolute;
+      top: 60%;
+      height: 10%;
+      width: 15%;
+      background: var(--color-white);
+      border-radius: 50%;
+    }
+
+    .eye--left {
+      left: 0;
+    }
+
+    .eye--left::before {
+      right: -5%;
+    }
+
+    .eye--right {
+      right: 0;
+    }
+
+    .eye--right::before {
+      left: -5%;
+    }
+
+    .eye-pupil {
+      position: absolute;
+      top: 25%;
+      height: 50%;
+      width: 20%;
+      background: var(--color-black);
+      border-radius: 50%;
+      animation: look-around 4s infinite;
+    }
+
+    @keyframes look-around {
+      0% { transform: translate(0) }
+      5% { transform: translate(50%, -25%) }
+      10% { transform: translate(50%, -25%) }
+      15% { transform: translate(-100%, -25%) }
+      20% { transform: translate(-100%, -25%) }
+      25% { transform: translate(0, 0) }
+      100% { transform: translate(0, 0) }
+    }
+
+    .eye--left .eye-pupil {
+      right: 30%;
+    }
+
+    .eye--right .eye-pupil {
+      left: 30%;
+    }
+
+    .eye-pupil::after {
+      content: '';
+      position: absolute;
+      top: 30%;
+      right: -5%;
+      height: 20%;
+      width: 35%;
+      border-radius: 50%;
+      background: var(--color-white);
+    }
+
+    .muzzle {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      height: 6%;
+      width: 10%;
+      background: var(--color-white);
+      transform: translateX(-50%);
+      border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
+    }
+
+    /* General page styling */
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: var(--color-black);
+      color: var(--color-white);
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    /* Night mode light theme */
+    body.light-mode {
+      background: var(--color-white);
+      color: var(--color-black);
+    }
+
+    body.light-mode .cat .face {
+      background: var(--color-white);
+    }
+
+    body.light-mode .cat .ear {
+      background: var(--color-black);
+    }
+
+    body.light-mode .eye {
+      background: var(--color-black);
+    }
+
+    body.light-mode .eye::after {
+      background: var(--color-white);
+    }
+
+    body.light-mode .eye-pupil {
+      background: var(--color-white);
+    }
+
+    /* Night mode toggle button style */
+    .toggle-btn {
+      margin-bottom: 20px;
+      padding: 8px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #666;
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+
+    .toggle-btn:hover {
+      background: #444;
+    }
+
+    /* Links style */
+    a {
+      color: #55aaff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      padding-left: 0;
+      list-style-type: none;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Night mode toggle button -->
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
+
+  <!-- Meow sound -->
+  <audio id="meow-sound" src="https://www.fesliyanstudios.com/play-mp3/6965" preload="auto"></audio>
+
+  <!-- Cat animation -->
+  <div class="cat" onmouseenter="playMeow()">
+    <div class="ear ear--left"></div>
+    <div class="ear ear--right"></div>
+    <div class="face">
+      <div class="eye eye--left">
+        <div class="eye-pupil"></div>
+      </div>
+      <div class="eye eye--right">
+        <div class="eye-pupil"></div>
+      </div>
+      <div class="muzzle"></div>
+    </div>
+  </div>
+
+  <!-- Quizzes list and user auth -->
+  <h1>All Quizzes</h1>
+
+  {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    </p>
+  {% else %}
+    <a href="{% url 'login' %}">Login</a>
+  {% endif %}
+
+  <a href="{% url 'create_quiz' %}">Create New Quiz</a>
+
+  <ul>
+    {% for quiz in quizzes %}
+      <li>
+        <a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a> (ID: {{ quiz.id }})
+      </li>
+    {% empty %}
+      <li>No quizzes yet.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
+    }
+
+    function playMeow() {
+      const sound = document.getElementById('meow-sound');
+      sound.currentTime = 0; // rewind to start
+      sound.play();
+    }
+  </script>
+<audio id="meowSound" src="{% static 'quiz/sounds/meow.mp3' %}"></audio>
+
+<script>
+    const meowSound = document.getElementById("meowSound");
+
+    function playMeow() {
+        meowSound.currentTime = 0; // rewind to start
+        meowSound.play();
+    }
+
+    function stopMeow() {
+        meowSound.pause();
+        meowSound.currentTime = 0;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const hoverElements = document.querySelectorAll(".hover-sound");
+
+        hoverElements.forEach(el => {
+            el.addEventListener("mouseenter", playMeow);
+            el.addEventListener("mouseleave", stopMeow);
+        });
+    });
+</script>
+
+</body>
+</html>

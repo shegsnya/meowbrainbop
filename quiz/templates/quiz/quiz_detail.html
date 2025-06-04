@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ quiz.title }} - Details</title>
+</head>
+<body>
+    <h1>{{ quiz.title }}</h1>
+    <p>This is the detail page for the quiz "{{ quiz.title }}".</p>
+
+    <h2>Questions</h2>
+    {% if questions %}
+        <ul>
+            {% for question in questions %}
+                <li>{{ question.text }} (Time limit: {{ question.time_limit_seconds }} seconds)</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No questions yet.</p>
+    {% endif %}
+
+    <a href="{% url 'add_question' quiz.id %}">Add Question</a>
+</body>
+</html>

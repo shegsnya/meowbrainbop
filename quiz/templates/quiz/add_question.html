@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Question to {{ quiz.title }}</title>
+</head>
+<body>
+  <h1>Add Question to "{{ quiz.title }}"</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    
+    {{ question_form.as_p }}
+    
+    <h3>Choices:</h3>
+    {{ formset.management_form }}
+    {% for form in formset %}
+      <div>
+        {{ form.as_p }}
+      </div>
+    {% endfor %}
+    
+    <button type="submit">Add Question</button>
+  </form>
+
+  <p><a href="{% url 'quiz_detail' quiz.id %}">Back to Quiz Details</a></p>
+</body>
+</html>
