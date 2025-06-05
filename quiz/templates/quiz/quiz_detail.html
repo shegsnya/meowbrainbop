@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ quiz.title }} - Details</title>
-</head>
-<body>
-    <h1>{{ quiz.title }}</h1>
-    <p>This is the detail page for the quiz "{{ quiz.title }}".</p>
+<h2>{{ quiz.title }}</h2>
 
-    <h2>Questions</h2>
-    {% if questions %}
-        <ul>
-            {% for question in questions %}
-                <li>{{ question.text }} (Time limit: {{ question.time_limit_seconds }} seconds)</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No questions yet.</p>
-    {% endif %}
-
+{% if user.is_authenticated and user == quiz.creator %}
+    <p>You created this quiz.</p>
     <a href="{% url 'add_question' quiz.id %}">Add Question</a>
-</body>
-</html>
+    <h3>Questions:</h3>
+    <ul>
+        {% for question in questions %}
+            <li>{{ question.text }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p><strong>Ready to test yourself?</strong></p>
+    <a href="{% url 'take_quiz' quiz.id %}">
+        <button>Take This Quiz</button>
+    </a>
+{% endif %}
+{% if user.is_authenticated and not user.is_staff and quiz.creator != user %}
+  <a href="{% url 'take_quiz' quiz.id %}" class="btn btn-primary">Take Quiz</a>
+{% endif %}
+

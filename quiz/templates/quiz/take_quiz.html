@@ -113,7 +113,7 @@
                     <div class="question-text">{{ forloop.counter }}. {{ question.text }}</div>
                     {% for choice in question.choices.all %}
                         <label class="choice">
-                            <input type="radio" name="{{ question.id }}" value="{{ choice.id }}">
+                            <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}">
                             {{ choice.text }}
                         </label>
                     {% endfor %}

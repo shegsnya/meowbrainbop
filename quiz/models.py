@@ -21,8 +21,8 @@ class Question(models.Model):
         return self.text
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
-    text = models.CharField(max_length=200)
+    question = models.ForeignKey(Question, related_name='choices', on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
@@ -32,12 +32,12 @@ class QuizTaker(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     started_at = models.DateTimeField(auto_now_add=True)
-
 class Answer(models.Model):
-    quiz_taker = models.ForeignKey(QuizTaker, on_delete=models.CASCADE)
+    quiz_taker = models.ForeignKey('QuizTaker', on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     selected_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
-    answered_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 class Result(models.Model):
