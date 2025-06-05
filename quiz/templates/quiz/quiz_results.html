@@ -7,5 +7,8 @@
     <h1>Results for "{{ quiz.title }}"</h1>
     <p>Your result has been submitted! (Functionality can be expanded later.)</p>
     <a href="{% url 'home' %}">Back to Home</a>
+    <h2>Results for {{ quiz.title }}</h2>
+<p>You scored {{ score }} out of {{ total }}.</p>
+<a href="{% url 'quiz_catalogue' %}">Back to Quiz List</a>
 </body>
 </html>
