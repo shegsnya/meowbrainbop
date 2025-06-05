@@ -72,7 +72,7 @@ def take_quiz(request, quiz_id):
         for question in questions:
             selected = request.POST.get(str(question.id))
             correct_choice = question.choices.filter(is_correct=True).first()
-            if selected and correct_choice and selected == correct_choice.text:
+            if selected and correct_choice and int(selected) == correct_choice.id:
                 score += 1
 
         return redirect(f"{reverse('quiz_results', args=[quiz.id])}?score={score}&total={total}")
